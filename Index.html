@@ -1,0 +1,1500 @@
+# Jogo
+
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Toque nas Estrelas ⭐</title>
+
+    <style>
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+            font-family: 'Segoe UI', Roboto, sans-serif;
+
+            touch-action: manipulation;
+
+        }
+
+
+
+        body {
+
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3a 50%, #16213e 100%);
+
+            min-height: 100vh;
+
+            overflow: hidden;
+
+        }
+
+
+
+        .fundo-estrelas {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            z-index: 0;
+
+        }
+
+
+
+        .fundo-estrelas span {
+
+            position: absolute;
+
+            width: 3px;
+
+            height: 3px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            opacity: 0.5;
+
+            animation: brilho 3s infinite;
+
+        }
+
+
+
+        @keyframes brilho {
+
+            0%, 100% { opacity: 0.3; }
+
+            50% { opacity: 1; }
+
+        }
+
+
+
+        .menu-inicial {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 300;
+
+            background: rgba(5, 5, 20, 0.95);
+
+            padding: 20px;
+
+            overflow-y: auto;
+
+        }
+
+
+
+        .menu-inicial h1 {
+
+            font-size: clamp(28px, 8vw, 42px);
+
+            color: #ffd700;
+
+            margin-bottom: 10px;
+
+            text-shadow: 0 0 20px rgba(255,215,0,0.4);
+
+        }
+
+
+
+        .subtitulo {
+
+            color: #aaa;
+
+            font-size: 16px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+
+        .recordes-rapidos {
+
+            background: rgba(255,255,255,0.03);
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            border-radius: 12px;
+
+            padding: 12px 20px;
+
+            margin-bottom: 25px;
+
+            text-align: center;
+
+        }
+
+
+
+        .recordes-rapidos p {
+
+            color: #999;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+
+        .lista-recordes {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px 12px;
+
+            justify-content: center;
+
+        }
+
+
+
+        .rec-item {
+
+            font-size: 14px;
+
+            color: #ffd700;
+
+        }
+
+
+
+        .menu-inicial h2 {
+
+            font-size: 20px;
+
+            color: #fff;
+
+            margin-bottom: 20px;
+
+        }
+
+
+
+        .botoes-tempo {
+
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-bottom: 25px;
+
+            width: 100%;
+
+            max-width: 360px;
+
+        }
+
+
+
+        .btn-tempo {
+
+            padding: 14px 8px;
+
+            font-size: 17px;
+
+            background: linear-gradient(135deg, #2a2a4a, #1f1f3a);
+
+            color: white;
+
+            border: 2px solid rgba(255,255,255,0.15);
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            transition: all 0.25s;
+
+            font-weight: 600;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 4px;
+
+        }
+
+
+
+        .btn-tempo .tempo-valor {
+
+            font-size: 19px;
+
+        }
+
+
+
+        .btn-tempo .rec-valor {
+
+            font-size: 11px;
+
+            color: #888;
+
+            font-weight: normal;
+
+        }
+
+
+
+        .btn-tempo:hover {
+
+            border-color: #ffd700;
+
+            color: #ffd700;
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 8px 20px rgba(255,215,0,0.15);
+
+        }
+
+
+
+        .btn-tempo.selecionado {
+
+            background: linear-gradient(135deg, #ffd700, #ffb300);
+
+            color: #000;
+
+            border-color: #ffd700;
+
+            box-shadow: 0 0 25px rgba(255,215,0,0.35);
+
+        }
+
+
+
+        .btn-tempo.selecionado .rec-valor {
+
+            color: #555;
+
+        }
+
+
+
+        .info-estrelas {
+
+            background: rgba(255,255,255,0.05);
+
+            border: 1px solid rgba(255,255,255,0.1);
+
+            border-radius: 12px;
+
+            padding: 15px 25px;
+
+            margin-bottom: 25px;
+
+            text-align: center;
+
+        }
+
+
+
+        .info-estrelas p {
+
+            color: #ccc;
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+        }
+
+
+
+        .info-normais { color: #ffd700; font-weight: bold; }
+
+        .info-vermelhas { color: #ff4444; font-weight: bold; }
+
+
+
+        .btn-iniciar {
+
+            padding: 15px 45px;
+
+            font-size: 20px;
+
+            background: linear-gradient(135deg, #4CAF50, #2e8b57);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 50px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+
+            transition: all 0.2s;
+
+        }
+
+
+
+        .btn-iniciar:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.5);
+
+        }
+
+
+
+        .barra-superior {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            padding: 15px 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            z-index: 100;
+
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+
+        }
+
+
+
+        .caixa-pontos {
+
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,185,0,0.1));
+
+            border: 2px solid rgba(255,215,0,0.4);
+
+            border-radius: 30px;
+
+            padding: 10px 20px;
+
+            box-shadow: 0 0 20px rgba(255,215,0,0.15);
+
+        }
+
+
+
+        .texto-pontos {
+
+            color: #ffd700;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            text-shadow: 0 0 10px rgba(255,215,0,0.3);
+
+        }
+
+
+
+        .caixa-tempo {
+
+            background: linear-gradient(135deg, rgba(0,191,255,0.2), rgba(30,144,255,0.1));
+
+            border: 2px solid rgba(0,191,255,0.4);
+
+            border-radius: 30px;
+
+            padding: 10px 20px;
+
+            box-shadow: 0 0 20px rgba(0,191,255,0.15);
+
+        }
+
+
+
+        .texto-tempo {
+
+            color: #00bfff;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            text-shadow: 0 0 10px rgba(0,191,255,0.3);
+
+        }
+
+
+
+        .caixa-jogo {
+
+            position: fixed;
+
+            top: 90px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 92%;
+
+            max-width: 720px;
+
+            height: calc(100vh - 120px);
+
+            min-height: 450px;
+
+            background: rgba(255,255,255,0.03);
+
+            border: 2px solid rgba(255,255,255,0.1);
+
+            border-radius: 24px;
+
+            box-shadow: 
+
+                inset 0 0 60px rgba(0,0,0,0.3),
+
+                0 0 30px rgba(0,0,0,0.5);
+
+            overflow: hidden;
+
+            z-index: 50;
+
+            display: none;
+
+        }
+
+
+
+        .estrela {
+
+            position: absolute;
+
+            font-size: 34px;
+
+            cursor: pointer;
+
+            transition: transform 0.15s ease-out;
+
+            user-select: none;
+
+            z-index: 55;
+
+            filter: drop-shadow(0 0 8px currentColor);
+
+            touch-action: none;
+
+        }
+
+
+
+        .estrela-normal {
+
+            color: #ffd700;
+
+            animation: brilhoEstrela 1.5s infinite alternate;
+
+        }
+
+
+
+        .estrela-vermelha {
+
+            color: #ff4444;
+
+            filter: drop-shadow(0 0 10px #ff0000);
+
+        }
+
+
+
+        @keyframes brilhoEstrela {
+
+            from { filter: drop-shadow(0 0 5px #ffd700); }
+
+            to { filter: drop-shadow(0 0 15px #ffd700); }
+
+        }
+
+
+
+        .estrela:active {
+
+            transform: scale(1.4);
+
+        }
+
+
+
+        .fim-jogo {
+
+            position: fixed;
+
+            top: 0;
+
+            left: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: rgba(5, 5, 20, 0.92);
+
+            display: none;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            color: white;
+
+            z-index: 200;
+
+            padding: 20px;
+
+        }
+
+
+
+        .fim-jogo h2 {
+
+            font-size: clamp(26px, 7vw, 38px);
+
+            margin-bottom: 20px;
+
+            color: #ffd700;
+
+            text-shadow: 0 0 20px rgba(255,215,0,0.4);
+
+        }
+
+
+
+        .novo-recorde {
+
+            color: #00ff88;
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+
+            animation: pulse 1s infinite;
+
+        }
+
+
+
+        @keyframes pulse {
+
+            0%, 100% { opacity: 1; transform: scale(1); }
+
+            50% { opacity: 0.7; transform: scale(1.05); }
+
+        }
+
+
+
+        .caixa-resultado {
+
+            background: rgba(255,255,255,0.05);
+
+            border: 2px solid rgba(255,255,255,0.1);
+
+            border-radius: 20px;
+
+            padding: 25px 30px;
+
+            margin-bottom: 25px;
+
+            text-align: center;
+
+            min-width: 280px;
+
+            max-width: 360px;
+
+        }
+
+
+
+        .pontuacao-final {
+
+            font-size: clamp(32px, 10vw, 48px);
+
+            font-weight: bold;
+
+            color: #00bfff;
+
+            margin-bottom: 10px;
+
+        }
+
+
+
+        .recorde-atual {
+
+            font-size: 15px;
+
+            color: #ffd700;
+
+            margin-bottom: 20px;
+
+            opacity: 0.85;
+
+        }
+
+
+
+        .estatistica {
+
+            font-size: 17px;
+
+            margin: 10px 0;
+
+            color: #ccc;
+
+            line-height: 1.7;
+
+        }
+
+
+
+        .valor-normal { color: #ffd700; font-weight: bold; }
+
+        .valor-vermelha { color: #ff4444; font-weight: bold; }
+
+
+
+        .botoes-fim {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+        }
+
+
+
+        .btn {
+
+            padding: 13px 26px;
+
+            font-size: 17px;
+
+            background: linear-gradient(135deg, #4CAF50, #2e8b57);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 50px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+
+            transition: all 0.2s;
+
+        }
+
+
+
+        .btn-secundario {
+
+            background: linear-gradient(135deg, #444, #333);
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+        }
+
+
+
+        .btn:hover {
+
+            transform: translateY(-2px);
+
+        }
+
+
+
+        @media (max-width: 400px) {
+
+            .botoes-tempo { grid-template-columns: repeat(2, 1fr); }
+
+            .caixa-pontos, .caixa-tempo { padding: 8px 14px; }
+
+            .texto-pontos, .texto-tempo { font-size: 18px; }
+
+            .caixa-resultado { padding: 20px; }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="fundo-estrelas" id="fundoEstrelas"></div>
+
+
+
+    <div class="menu-inicial" id="menuInicial">
+
+        <h1>⭐ Toque nas Estrelas ⭐</h1>
+
+        <p class="subtitulo">Cuidado para não tocar nas vermelhas!</p>
+
+        
+
+        <div class="recordes-rapidos">
+
+            <p>🏆 Seus Recordes:</p>
+
+            <div class="lista-recordes" id="listaRecordes"></div>
+
+        </div>
+
+        
+
+        <h2>Escolha o tempo de jogo:</h2>
+
+        <div class="botoes-tempo" id="botoesTempo">
+
+            <button class="btn-tempo" data-tempo="5">
+
+                <span class="tempo-valor">5s</span>
+
+                <span class="rec-valor" id="rec-btn-5">—</span>
+
+            </button>
+
+            <button class="btn-tempo" data-tempo="10">
+
+                <span class="tempo-valor">10s</span>
+
+                <span class="rec-valor" id="rec-btn-10">—</span>
+
+            </button>
+
+            <button class="btn-tempo" data-tempo="15">
+
+                <span class="tempo-valor">15s</span>
+
+                <span class="rec-valor" id="rec-btn-15">—</span>
+
+            </button>
+
+            <button class="btn-tempo" data-tempo="20">
+
+                <span class="tempo-valor">20s</span>
+
+                <span class="rec-valor" id="rec-btn-20">—</span>
+
+            </button>
+
+            <button class="btn-tempo" data-tempo="25">
+
+                <span class="tempo-valor">25s</span>
+
+                <span class="rec-valor" id="rec-btn-25">—</span>
+
+            </button>
+
+            <button class="btn-tempo selecionado" data-tempo="30">
+
+                <span class="tempo-valor">30s</span>
+
+                <span class="rec-valor" id="rec-btn-30">—</span>
+
+            </button>
+
+        </div>
+
+
+
+        <div class="info-estrelas">
+
+            <p>Estrelas normais: <span class="info-normais" id="infoNormais">150</span></p>
+
+            <p>Estrelas vermelhas: <span class="info-vermelhas" id="infoVermelhas">150</span></p>
+
+        </div>
+
+
+
+        <button class="btn-iniciar" onclick="iniciarJogo()">▶️ Iniciar Jogo</button>
+
+    </div>
+
+
+
+    <div class="barra-superior" id="barraSuperior" style="display: none;">
+
+        <div class="caixa-pontos">
+
+            <span class="texto-pontos">⭐ Pontos: <span id="contador">0</span></span>
+
+        </div>
+
+        <div class="caixa-tempo">
+
+            <span class="texto-tempo">⏱️ <span id="cronometro">30s</span></span>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="caixa-jogo" id="areaJogo"></div>
+
+
+
+    <div class="fim-jogo" id="telaFim">
+
+        <h2 id="tituloFim">🎉 Tempo Esgotado!</h2>
+
+        <div id="mensagemNovoRecorde" class="novo-recorde" style="display: none;">🏆 NOVO RECORDE! 🎊</div>
+
+        <div class="caixa-resultado">
+
+            <div class="pontuacao-final" id="pontosFim">0</div>
+
+            <div class="recorde-atual" id="recordeAtual">Seu recorde: —</div>
+
+            <div class="estatistica">
+
+                ⭐ Estrelas coletadas:<br>
+
+                <span class="valor-normal" id="normaisColetadas">0</span> / <span id="totalNormais">150</span>
+
+            </div>
+
+            <div class="estatistica">
+
+                🔴 Vermelhas tocadas:<br>
+
+                <span class="valor-vermelha" id="vermelhasColetadas">0</span> / <span id="totalVermelhas">150</span>
+
+            </div>
+
+        </div>
+
+        <div class="botoes-fim">
+
+            <button class="btn btn-secundario" onclick="voltarMenu()">📋 MENU</button>
+
+            <button class="btn" onclick="reiniciar()">🔄 JOGAR NOVAMENTE</button>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+        // ⏱️ Configurações
+
+        const REFERENCIA_TEMPO = 30;
+
+        const REFERENCIA_NORMAIS = 150;
+
+        const REFERENCIA_VERMELHAS = 150;
+
+        const TEMPOS_DISPONIVEIS = [5, 10, 15, 20, 25, 30];
+
+        
+
+        let tempoSelecionado = 30;
+
+        let TOTAL_NORMAIS = 150;
+
+        let TOTAL_VERMELHAS = 150;
+
+        let TEMPO_TOTAL = 30;
+
+
+
+        let pontos = 0;
+
+        let tempoRestante = TEMPO_TOTAL;
+
+        let jogoAtivo = false;
+
+        let posicoesUsadas = [];
+
+        let contadorNormais = 0;
+
+        let contadorVermelhas = 0;
+
+        let coletadasNormais = 0;
+
+        let coletadasVermelhas = 0;
+
+        let geradorNormais, geradorVermelhas, contagem;
+
+
+
+        const menuInicial = document.getElementById('menuInicial');
+
+        const areaJogo = document.getElementById('areaJogo');
+
+        const barraSuperior = document.getElementById('barraSuperior');
+
+        const contador = document.getElementById('contador');
+
+        const cronometro = document.getElementById('cronometro');
+
+        const telaFim = document.getElementById('telaFim');
+
+        const pontosFim = document.getElementById('pontosFim');
+
+        const recordeAtual = document.getElementById('recordeAtual');
+
+        const mensagemNovoRecorde = document.getElementById('mensagemNovoRecorde');
+
+        const normaisColetadas = document.getElementById('normaisColetadas');
+
+        const vermelhasColetadas = document.getElementById('vermelhasColetadas');
+
+        const totalNormaisEl = document.getElementById('totalNormais');
+
+        const totalVermelhasEl = document.getElementById('totalVermelhas');
+
+        const infoNormais = document.getElementById('infoNormais');
+
+        const infoVermelhas = document.getElementById('infoVermelhas');
+
+        const listaRecordes = document.getElementById('listaRecordes');
+
+        const fundoEstrelas = document.getElementById('fundoEstrelas');
+
+
+
+        // 🏆 Sistema de Recordes (salvo no navegador)
+
+        function getRecorde(tempo) {
+
+            const valor = localStorage.getItem(`recorde_estrelas_${tempo}`);
+
+            return valor ? parseInt(valor) : null;
+
+        }
+
+
+
+        function setRecorde(tempo, pontuacao) {
+
+            localStorage.setItem(`recorde_estrelas_${tempo}`, pontuacao.toString());
+
+        }
+
+
+
+        function atualizarTelaRecordes() {
+
+            // Atualiza botões
+
+            TEMPOS_DISPONIVEIS.forEach(t => {
+
+                const el = document.getElementById(`rec-btn-${t}`);
+
+                const rec = getRecorde(t);
+
+                el.textContent = rec !== null ? `🏆 ${rec}` : '—';
+
+            });
+
+
+
+            // Atualiza lista rápida
+
+            listaRecordes.innerHTML = '';
+
+            TEMPOS_DISPONIVEIS.forEach(t => {
+
+                const rec = getRecorde(t);
+
+                if (rec !== null) {
+
+                    const span = document.createElement('span');
+
+                    span.className = 'rec-item';
+
+                    span.textContent = `${t}s: ${rec}`;
+
+                    listaRecordes.appendChild(span);
+
+                }
+
+            });
+
+        }
+
+
+
+        // Estrelas de fundo
+
+        for (let i = 0; i < 80; i++) {
+
+            const estrela = document.createElement('span');
+
+            estrela.style.left = Math.random() * 100 + '%';
+
+            estrela.style.top = Math.random() * 100 + '%';
+
+            estrela.style.animationDelay = Math.random() * 3 + 's';
+
+            fundoEstrelas.appendChild(estrela);
+
+        }
+
+
+
+        // Seleção de tempo
+
+        document.querySelectorAll('.btn-tempo').forEach(btn => {
+
+            btn.addEventListener('click', function() {
+
+                document.querySelectorAll('.btn-tempo').forEach(b => b.classList.remove('selecionado'));
+
+                this.classList.add('selecionado');
+
+                tempoSelecionado = parseInt(this.dataset.tempo);
+
+                atualizarInfoEstrelas();
+
+            });
+
+        });
+
+
+
+        function atualizarInfoEstrelas() {
+
+            const fator = tempoSelecionado / REFERENCIA_TEMPO;
+
+            const normais = Math.round(REFERENCIA_NORMAIS * fator);
+
+            const vermelhas = Math.round(REFERENCIA_VERMELHAS * fator);
+
+            infoNormais.textContent = normais;
+
+            infoVermelhas.textContent = vermelhas;
+
+        }
+
+
+
+        // Iniciar jogo
+
+        function iniciarJogo() {
+
+            TEMPO_TOTAL = tempoSelecionado;
+
+            const fator = TEMPO_TOTAL / REFERENCIA_TEMPO;
+
+            TOTAL_NORMAIS = Math.round(REFERENCIA_NORMAIS * fator);
+
+            TOTAL_VERMELHAS = Math.round(REFERENCIA_VERMELHAS * fator);
+
+            
+
+            totalNormaisEl.textContent = TOTAL_NORMAIS;
+
+            totalVermelhasEl.textContent = TOTAL_VERMELHAS;
+
+            
+
+            menuInicial.style.display = 'none';
+
+            areaJogo.style.display = 'block';
+
+            barraSuperior.style.display = 'flex';
+
+            telaFim.style.display = 'none';
+
+            
+
+            pontos = 0;
+
+            tempoRestante = TEMPO_TOTAL;
+
+            jogoAtivo = true;
+
+            posicoesUsadas = [];
+
+            contadorNormais = 0;
+
+            contadorVermelhas = 0;
+
+            coletadasNormais = 0;
+
+            coletadasVermelhas = 0;
+
+            contador.textContent = '0';
+
+            cronometro.textContent = TEMPO_TOTAL + 's';
+
+            areaJogo.querySelectorAll('.estrela').forEach(e => e.remove());
+
+            
+
+            const intervaloNormais = (TEMPO_TOTAL * 1000) / TOTAL_NORMAIS;
+
+            const intervaloVermelhas = (TEMPO_TOTAL * 1000) / TOTAL_VERMELHAS;
+
+
+
+            geradorNormais = setInterval(() => {
+
+                if (!jogoAtivo) {
+
+                    clearInterval(geradorNormais);
+
+                    return;
+
+                }
+
+                if (contadorNormais < TOTAL_NORMAIS) {
+
+                    contadorNormais++;
+
+                    criarEstrela('normal');
+
+                }
+
+            }, intervaloNormais);
+
+
+
+            geradorVermelhas = setInterval(() => {
+
+                if (!jogoAtivo) {
+
+                    clearInterval(geradorVermelhas);
+
+                    return;
+
+                }
+
+                if (contadorVermelhas < TOTAL_VERMELHAS) {
+
+                    contadorVermelhas++;
+
+                    criarEstrela('vermelha');
+
+                }
+
+            }, intervaloVermelhas);
+
+
+
+            contagem = setInterval(() => {
+
+                tempoRestante--;
+
+                cronometro.textContent = tempoRestante + 's';
+
+                if (tempoRestante <= 0) {
+
+                    clearInterval(contagem);
+
+                    clearInterval(geradorNormais);
+
+                    clearInterval(geradorVermelhas);
+
+                    fimDeJogo();
+
+                }
+
+            }, 1000);
+
+        }
+
+
+
+        function posicaoLivre(x, y) {
+
+            const distanciaMinima = 75;
+
+            for (let pos of posicoesUsadas) {
+
+                const dist = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow(y - pos.y, 2));
+
+                if (dist < distanciaMinima) return false;
+
+            }
+
+            return true;
+
+        }
+
+
+
+        function criarEstrela(tipo) {
+
+            if (!jogoAtivo) return;
+
+            
+
+            const ehVermelha = tipo === 'vermelha';
+
+            const estrela = document.createElement('div');
+
+            estrela.className = 'estrela ' + (ehVermelha ? 'estrela-vermelha' : 'estrela-normal');
+
+            estrela.textContent = ehVermelha ? '🔴' : '⭐';
+
+            
+
+            const larguraArea = areaJogo.clientWidth;
+
+            const alturaArea = areaJogo.clientHeight;
+
+            
+
+            const x = 20 + Math.random() * (larguraArea - 60);
+
+            const y = 20 + Math.random() * (alturaArea - 60);
+
+            
+
+            let tentativas = 0;
+
+            while (!posicaoLivre(x, y) && tentativas < 50) {
+
+                tentativas++;
+
+            }
+
+            
+
+            posicoesUsadas.push({ x, y });
+
+            estrela.style.left = x + 'px';
+
+            estrela.style.top = y + 'px';
+
+
+
+            function coletarEstrela() {
+
+                if (!estrela.parentElement) return;
+
+                
+
+                if (ehVermelha) {
+
+                    pontos = Math.max(0, pontos - 1);
+
+                    coletadasVermelhas++;
+
+                } else {
+
+                    pontos++;
+
+                    coletadasNormais++;
+
+                }
+
+                contador.textContent = pontos;
+
+                estrela.remove();
+
+                posicoesUsadas = posicoesUsadas.filter(p => !(p.x === x && p.y === y));
+
+            }
+
+
+
+            estrela.addEventListener('mousedown', coletarEstrela);
+
+            estrela.addEventListener('touchstart', function(e) {
+
+                e.preventDefault();
+
+                coletarEstrela();
+
+            });
+
+            
+
+            areaJogo.appendChild(estrela);
+
+            
+
+            setTimeout(() => {
+
+                if (estrela.parentElement) {
+
+                    estrela.remove();
+
+                    posicoesUsadas = posicoesUsadas.filter(p => !(p.x === x && p.y === y));
+
+                }
+
+            }, 3000);
+
+        }
+
+
+
+        function fimDeJogo() {
+
+            jogoAtivo = false;
+
+            
+
+            const recordeAtualValor = getRecorde(TEMPO_TOTAL);
+
+            const ehNovoRecorde = recordeAtualValor === null || pontos > recordeAtualValor;
+
+            
+
+            if (ehNovoRecorde && pontos > 0) {
+
+                setRecorde(TEMPO_TOTAL, pontos);
+
+                mensagemNovoRecorde.style.display = 'block';
+
+                recordeAtual.textContent = `🏆 Novo recorde: ${pontos} pontos!`;
+
+            } else {
+
+                mensagemNovoRecorde.style.display = 'none';
+
+                recordeAtual.textContent = recordeAtualValor !== null 
+
+                    ? `Seu recorde: ${recordeAtualValor} pontos`
+
+                    : 'Sem recorde ainda';
+
+            }
+
+            
+
+            pontosFim.textContent = pontos;
+
+            normaisColetadas.textContent = coletadasNormais;
+
+            vermelhasColetadas.textContent = coletadasVermelhas;
+
+            telaFim.style.display = 'flex';
+
+        }
+
+
+
+        function reiniciar() {
+
+            telaFim.style.display = 'none';
+
+            iniciarJogo();
+
+        }
+
+
+
+        function voltarMenu() {
+
+            jogoAtivo = false;
+
+            clearInterval(geradorNormais);
+
+            clearInterval(geradorVermelhas);
+
+            clearInterval(contagem);
+
+            areaJogo.querySelectorAll('.estrela').forEach(e => e.remove());
+
+            telaFim.style.display = 'none';
+
+            areaJogo.style.display = 'none';
+
+            barraSuperior.style.display = 'none';
+
+            atualizarTelaRecordes();
+
+            menuInicial.style.display = 'flex';
+
+        }
+
+
+
+        // Inicializa recordes na tela
+
+        atualizarTelaRecordes();
+
+    </script>
+
+</body>
+
+</html>
+
+
+
